@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderMapper">
+
+    <insert id="insertOrder" parameterType="OrderModel">
+        INSERT
+            INTO `ORDER`
+            (
+                PRODUCT_NO,
+                SELLER_ID,
+                USER_ID,
+                ORDER_QUANTITY,
+                ORDER_PRICE,
+                ORDER_STATE,
+                PRODUCE_DATE,
+                PRODUCE_ID,
+                MODIFY_DATE,
+                MODIFY_ID
+            )
+            VALUES
+            (
+                #{productNo},
+                #{sellerId},
+                #{userId},
+                #{orderQuantity},
+                #{orderPrice},
+                #{orderState},
+                NOW(),
+                #{produceId},
+                NOW(),
+                #{modifyId}
+            )
+    </insert>
+
+    <select id="selectOrders" resultType="OrderModel" parameterType="OrderModel">
+        SELECT
+            ORDER_NO,
+            PRODUCT_NO,
+            SELLER_ID,
+            USER_ID,
+            ORDER_QUANTITY,
+            ORDER_PRICE,
+            ORDER_STATE,
+            PRODUCE_DATE,
+            PRODUCE_ID,
+            MODIFY_DATE,
+            MODIFY_ID
+        FROM `ORDER`
+    </select>
+
+    <select id="selectOrder" resultType="OrderModel" parameterType="OrderModel">
+        SELECT
+            ORDER_NO,
+            PRODUCT_NO,
+            SELLER_ID,
+            USER_ID,
+            ORDER_QUANTITY,
+            ORDER_PRICE,
+            ORDER_STATE,
+            PRODUCE_DATE,
+            PRODUCE_ID,
+            MODIFY_DATE,
+            MODIFY_ID
+        FROM `ORDER`
+            WHERE ORDER_NO = #{orderNo}
+    </select>
+
+    <delete id="deleteOrder" parameterType="OrderModel">
+        DELETE FROM `ORDER` WHERE ORDER_NO = #{orderNo}
+    </delete>
+
+    <update id="updateOrder" parameterType="OrderModel">
+        UPDATE `ORDER` SET
+            <if test='productNo != null and productNo != "" '>
+                ORDER_PASSWORD = #{productNo},
+            </if>
+            <if test='orderQuantity != null and orderQuantity != "" '>
+                ORDER_NAME = #{orderQuantity},
+            </if>
+            <if test='orderPrice != null and orderPrice != "" '>
+                ORDER_PHONE = #{orderPrice},
+            </if>
+            <if test='orderState != null and orderState != "" '>
+                ORDER_EMAIL = #{orderState},
+            </if>
+            <if test='modifyId != null and modifyId != "" '>
+                MODIFY_ID = #{modifyId},
+            </if>
+                MODIFY_DATE = NOW()
+            WHERE ORDER_NO = #{orderNo}
+    </update>
+</mapper>
